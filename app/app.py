@@ -23,3 +23,10 @@ def index():
         app.logger.exception("Redis request failed")
         return jsonify(error="database unavailable"), 503
 
+@app.get("/test")
+def test():
+    try:
+        redis_client.ping()
+        return jsonify(status="ok")
+    except redis.exceptions.RedisError:
+        return jsonify(error="database unavailable"), 503
